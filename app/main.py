@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
+from app.api.routes.chat import router as chat_router
+from app.api.routes.documents import router as documents_router
 
 
 def create_app() -> FastAPI:
@@ -27,8 +29,9 @@ def create_app() -> FastAPI:
     async def health_check():
         return {"status": "healthy"}
 
-    # Routes will be registered here later
-    # app.include_router(...)
+    # Register API routers
+    app.include_router(chat_router, prefix="/api")
+    app.include_router(documents_router, prefix="/api")
 
     return app
 
